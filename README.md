@@ -1,33 +1,127 @@
-# Multi-Game Reinforcement Learning Agent 🧠🎮
+# Reinforcement Learning Arcade
 
-An autonomous Artificial Intelligence agent that learns to play classic arcade games using a **Deep Q-Network (DQN)**. Built entirely in Python and PyTorch, this AI starts with zero knowledge of the game and learns optimal pathfinding and decision-making purely through trial, error, and reinforcement learning.
+A collection of classic arcade games enhanced with AI agents trained using reinforcement learning techniques. This project implements Q-learning with neural networks to create intelligent agents that can play Flappy Bird and Snake games.
 
-Currently, the agent has mastered **Snake**, with a modular architecture designed to easily swap in new environments (like Flappy Bird) in the future.
+## Games Included
 
-## ✨ Key Features
+### 🐦 Flappy Bird AI - Coin Hunter
+An enhanced version of the classic Flappy Bird game where the AI agent learns to navigate pipes while collecting coins for bonus rewards. The agent uses advanced state representation including coin vision to optimize its strategy.
 
-* **Deep Q-Learning:** Utilizes a feed-forward neural network to predict the best possible moves based on the current state of the game.
-* **Optimized State Space:** Uses a refined 11-input array (danger detection, current direction, food location) to maximize learning speed and efficiency.
-* **Smart Memory & State Management:** Solves "catastrophic forgetting" by automatically saving the highest-performing neural weights (`model.pth`) and reloading them for future sessions with 0% randomness.
-* **Custom Reward Shaping:** Implements "Hunger Logic" to penalize infinite looping, forcing the agent to take calculated risks to survive rather than playing overly safe.
-* **Modular Architecture:** The core AI logic (`agent.py`, `model.py`) is completely decoupled from the game physics (`snake_game.py`), allowing for rapid deployment into new game environments.
+### 🐍 Snake Game AI
+A traditional Snake game where the AI agent learns to navigate the game board, avoid collisions, and maximize its score by eating food while growing longer.
 
-## 🛠️ Tech Stack
+## Features
 
-* **Python 3.x**
-* **PyTorch** (Deep Learning Framework)
-* **Pygame** (Game Environment & Rendering)
-* **NumPy** (Matrix Math & State representation)
-* **Matplotlib** (Live Training Analytics)
+- **Deep Q-Learning**: Both agents use neural networks trained with Q-learning algorithm
+- **Experience Replay**: Memory buffers store game experiences for efficient training
+- **Model Persistence**: Trained models are automatically saved and can be loaded for continued training or gameplay
+- **Training Analytics**: Real-time plotting of scores and performance metrics
+- **Epsilon-Greedy Exploration**: Balanced exploration vs exploitation strategy during training
+- **Advanced State Representation**: Rich input features for better decision making
 
-## 📂 Project Structure
+## Dependencies
 
-```text
-GAME_AGENT/
-│
-├── agent.py            # The main RL agent logic (Memory, Training Steps, Action Selection)
-├── model.py            # PyTorch Neural Network (Linear_QNet) and QTrainer
-├── snake_game.py       # The Pygame environment and physics
-├── helper.py           # Real-time plotting for scores and accuracy
-└── model/              # Directory for saved brains
-    └── model.pth       # The saved weights of the best-performing AI
+- Python 3.7+
+- PyTorch
+- Pygame
+- NumPy
+- Matplotlib (for plotting)
+
+## Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/Reinforcement-Learning-Arcade.git
+cd Reinforcement-Learning-Arcade
+```
+
+2. Install required packages:
+```bash
+pip install torch pygame numpy matplotlib
+```
+
+## Usage
+
+### Training the AI Agents
+
+#### Flappy Bird Agent
+```bash
+python flappy_agent.py
+```
+
+#### Snake Agent
+```bash
+python snake_agent.py
+```
+
+### How It Works
+
+1. **Initialization**: The agent loads any existing trained model or starts fresh
+2. **Game Loop**: For each game episode:
+   - Agent observes the current game state
+   - Chooses an action using epsilon-greedy policy
+   - Receives reward and observes next state
+   - Updates Q-network using experience replay
+3. **Model Saving**: Best performing models are automatically saved
+4. **Visualization**: Training progress is plotted in real-time
+
+### Game Controls (Manual Play)
+
+Both games support manual play through keyboard input:
+- **Flappy Bird**: Spacebar to jump
+- **Snake**: Arrow keys to change direction
+
+## Project Structure
+
+```
+Reinforcement-Learning-Arcade/
+├── flappy_agent.py          # Flappy Bird AI agent with Q-learning
+├── flappy_bird_game.py      # Flappy Bird game implementation
+├── flappy_helper.py         # Helper functions for Flappy Bird
+├── flappy_model.py          # Neural network model for Flappy Bird
+├── snake_agent.py           # Snake AI agent with Q-learning
+├── snake_game.py            # Snake game implementation
+├── snake_helper.py          # Helper functions for Snake
+├── snake_model.py           # Neural network model for Snake
+├── flappy_assets/           # Flappy Bird game assets
+├── snake_assets/            # Snake game assets
+├── model/                   # Saved trained models and training data
+│   ├── flappy_model.pth
+│   ├── flappy_training_data.json
+│   └── snake_model.pth
+└── README.md
+```
+
+## Technical Details
+
+### Neural Network Architecture
+- **Input Layer**: Game state features (positions, velocities, directions)
+- **Hidden Layer**: 256 neurons with ReLU activation
+- **Output Layer**: Action probabilities (2 for Flappy Bird, 3 for Snake)
+
+### Training Parameters
+- **Learning Rate**: 0.001
+- **Discount Factor (γ)**: 0.9
+- **Memory Buffer**: 100,000 experiences
+- **Batch Size**: 1,000
+- **Epsilon Decay**: Starts at 100, decreases with games played
+
+### Reward System
+- **Flappy Bird**: +1 for passing pipes, +10 for collecting coins, -1000 for collision
+- **Snake**: +10 for eating food, -10 for collision, +1 for survival bonus
+
+## Model Files
+
+The `model/` directory contains:
+- `flappy_model.pth`: Trained neural network weights for Flappy Bird
+- `snake_model.pth`: Trained neural network weights for Snake
+- `flappy_training_data.json`: Training statistics and progress data
+
+
+
+## Acknowledgments
+
+- Inspired by classic arcade games
+- Built using PyTorch for deep learning
+- Pygame for game development
+- Reinforcement learning concepts from various research papers
